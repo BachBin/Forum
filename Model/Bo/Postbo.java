@@ -26,8 +26,8 @@ public class Postbo {
 	public boolean updateSolved(long id, boolean solved) throws Exception {
 		return postdao.updateSolved(id, solved);
 	}
-	public boolean createPost(Long authorId, String title, String summary, String content, boolean type, Long categoryId) throws Exception {
-		return postdao.createPost(authorId, title, summary, content, type, categoryId);
+	public boolean createPost(Long authorId, String title, String summary, String content, boolean type, Long categoryId, boolean show) throws Exception {
+		return postdao.createPost(authorId, title, summary, content, type, categoryId, show);
 	}
 	public boolean updatePost(Long id, String title, String summary, String content, boolean type, Long categoryId) throws Exception {
 		return postdao.updatePost(id, title, summary, content, type, categoryId);

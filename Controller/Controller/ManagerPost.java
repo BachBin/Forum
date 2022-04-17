@@ -59,9 +59,9 @@ public class ManagerPost extends HttpServlet {
 				req.setAttribute("listCate", catebo.getCategories());
 				req.setAttribute("listRecentPost", postbo.getRecentPost());
 
-				long count = postvmbo.getSLRecentPostAll(Integer.parseInt(slType));
+				long count = postvmbo.getSLRecentPostAll(Integer.parseInt(slType), 2);
 				if (txtSearch != null && txtSearch != "") {
-					count = postvmbo.getSLRecentPostAllbySearch(txtSearch, Integer.parseInt(slType));
+					count = postvmbo.getSLRecentPostAllbySearch(txtSearch, Integer.parseInt(slType), 2);
 				}
 
 				long endPage = count / sobai;
@@ -71,9 +71,9 @@ public class ManagerPost extends HttpServlet {
 				req.setAttribute("endP", endPage);
 				req.setAttribute("tag", index);
 				if (txtSearch != null && txtSearch != "") {
-					req.setAttribute("listPost", postvmbo.getRecentPostAllPagebySearch(index, sobai, txtSearch, Integer.parseInt(slType)));
+					req.setAttribute("listPost", postvmbo.getRecentPostAllPagebySearch(index, sobai, txtSearch, Integer.parseInt(slType), 2));
 				} else {
-					req.setAttribute("listPost", postvmbo.getRecentPostAllPage(index, sobai, Integer.parseInt(slType)));
+					req.setAttribute("listPost", postvmbo.getRecentPostAllPage(index, sobai, Integer.parseInt(slType), 2));
 				}
 				req.getRequestDispatcher("managerpost.jsp").forward(req, resp);
 			} else {

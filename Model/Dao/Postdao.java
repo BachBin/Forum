@@ -70,7 +70,7 @@ public class Postdao {
 
 	public Long countQuestion() throws Exception {
 		Long res = (long) 0;
-		sql = "select count(*) as total from Post where type = 0";
+		sql = "select count(*) as total from Post where type = 0 and show = 1";
 
 		con = new ConnecDataBase().getConnection();
 		ps = con.prepareStatement(sql);
@@ -85,7 +85,7 @@ public class Postdao {
 	}
 
 	public Long countAnswer() throws Exception {
-		sql = "select count(*) as total from Post where type = 1";
+		sql = "select count(*) as total from Post where type = 1 and show = 1";
 		Long res = (long) 0;
 
 		con = new ConnecDataBase().getConnection();
@@ -148,14 +148,13 @@ public class Postdao {
 		return res;
 	}
 
-	public boolean createPost(Long authorId, String title, String summary, String content, boolean type,
-			Long categoryId) throws Exception {
+	public boolean createPost(Long authorId, String title, String summary, String content, boolean type, Long categoryId, boolean show) throws Exception {
 		boolean res = false;
 		Date date = new Date();
 		Timestamp createdAt = new Timestamp(date.getTime());
 		String slug = VNCharacterUtils.removeAccent(title).toLowerCase().replace(' ', '-');
 		
-		sql = "insert into Post(authorId, title, slug, summary,createdAt,content,type) values (?,?,?,?,?,?,?)";
+		sql = "insert into Post(authorId, title, slug, summary,createdAt,content,type, show) values (?,?,?,?,?,?,?,?)";
 
 		con = new ConnecDataBase().getConnection();
 		ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -166,6 +165,7 @@ public class Postdao {
 		ps.setTimestamp(5, createdAt);
 		ps.setString(6, content);
 		ps.setBoolean(7, type);
+		ps.setBoolean(8, show);
 
 		int idRow = ps.executeUpdate();
 

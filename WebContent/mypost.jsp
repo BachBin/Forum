@@ -146,9 +146,27 @@
 								<div class="col-md-9">
 									<div class="right-description893">
 										<div id="que-hedder2983">
-											<h3>
-												<a href="detail?post=${q.getSlug() }">${q.getTitle() }</a>
+											<h3>												
+												<c:choose>
+													<c:when test="${q.isShow() == true}">
+														<a href="detail?post=${q.getSlug() }">${q.getTitle() }</a>
+														<a href="#">
+															<button type="button" class="q-type238">
+																<i class="fa fa-check" aria-hidden="true"> Accepted</i>
+															</button>
+														</a>
+													</c:when>
+													<c:otherwise>
+														<a href="#">${q.getTitle() }</a>
+														<a href="#">
+															<button type="button" class="q-type238">
+																<i class="fa fa-times" aria-hidden="true"> Pending</i>
+															</button>
+														</a>
+													</c:otherwise>
+												</c:choose>
 											</h3>
+											
 										</div>
 										<div class="ques-details10018">
 											<p>${q.getSummary() }</p>
@@ -181,13 +199,14 @@
 									</div>
 								</div>
 								<div class="col-md-2">
-									<div class="ques-type302">
+									<div class="ques-type302">										
 										<a href="#">
 											<button type="button" class="q-type238">
 												<i class="fa fa-comment" aria-hidden="true">
 													${q.getAnswer() } answer</i>
 											</button>
-										</a> <a href="#">
+										</a> 
+										<a href="#">
 											<button type="button" class="q-type23 button-ques2973">
 												<i class="fa fa-user-circle-o" aria-hidden="true">
 													${q.getView() } view</i>

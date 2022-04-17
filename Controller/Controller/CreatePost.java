@@ -43,6 +43,7 @@ public class CreatePost extends HttpServlet {
 				String category = req.getParameter("category");
 				String content = req.getParameter("content");
 				Pattern checkKitu = Pattern.compile("^.*[#?!@$%^&*-]+.*$");
+				boolean show = auth.getType() == 0 ? false : true;
 
 				if (checkKitu.matcher(title).find()) {
 					res.add("alert");
@@ -68,9 +69,8 @@ public class CreatePost extends HttpServlet {
 							out.close();
 							return;
 						}
-					}
-					if (postbo.createPost(authorId, title, summary, content, Boolean.parseBoolean(type),
-							Long.parseLong(category))) {
+					}					
+					if (postbo.createPost(authorId, title, summary, content, Boolean.parseBoolean(type), Long.parseLong(category), show)) {
 						res.add("success");
 						res.add("Đăng bài thành công!!!");
 
