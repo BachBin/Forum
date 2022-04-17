@@ -67,6 +67,13 @@ hr {
     float: left;
     margin:0px  10px;
 }
+.navbar-menu-left-side239 .fa-clock-o::after {
+    content: "|";
+    color: #2f3239;
+    float: left;
+    margin:0px  10px;
+}
+
 
 .navbar-serch-right-side {
     float: right;

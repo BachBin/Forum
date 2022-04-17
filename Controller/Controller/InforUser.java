@@ -56,7 +56,7 @@ public class InforUser extends HttpServlet {
 					if (!fileItem.isFormField()) {						
 						String nameimg = fileItem.getName();
 						if (!nameimg.equals("")) {							
-							String dirUrl = req.getServletContext().getRealPath("") +  File.separator + "images";
+							String dirUrl = req.getServletContext().getRealPath("") +  File.separator + "images";							
 							File dir = new File(dirUrl);
 							if (!dir.exists()) {
 								dir.mkdir();
