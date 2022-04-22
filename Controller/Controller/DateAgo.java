@@ -30,15 +30,15 @@ public class DateAgo {
 		long diffYears = diffDays / 365;
 		
 		if(diffYears > 0) 
-			return diffYears+" year ago";
+			return diffYears+" năm trước";
 		if(diffDays > 0) 
-			return diffDays+" day ago";
+			return diffDays+" ngày trước";
 		if(diffHours > 0) 
-			return diffHours+" hour ago";
+			return diffHours+" tiếng trước";
 		if(diffMinutes > 0) 
-			return diffMinutes+" minutes ago";
+			return diffMinutes+" phút trước";
 		if(diffSeconds >= 0) 
-			return diffSeconds+" second ago";
+			return diffSeconds+" giây trước";
 
 		} catch (Exception e) {		
 			e.printStackTrace();			

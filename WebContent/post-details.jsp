@@ -76,6 +76,9 @@
 								data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false">Quản lý <span class="caret"></span></a>
 								<ul class="dropdown-menu animated zoomIn">
+									<c:if test="${sessionScope.auth != null && sessionScope.auth.getType() == 2}">
+										<li><a href="managerforum">Quản lý diễn đàn</a></li>
+									</c:if>
 									<li><a href="managerpost">Quản lý bài đăng</a></li>
 									<li><a href="managercategory">Quản lý chủ đề </a></li>
 									<li><a href="manageruser">Quản lý tài khoản</a></li>
@@ -125,16 +128,16 @@
 									<c:choose>
 										<c:when test="${post.isType() == false}">
 											<a href="#"><i class="fa fa-question-circle"
-											aria-hidden="true"></i> Question</a>	
+											aria-hidden="true"></i> Câu hỏi</a>	
 										</c:when>	
 										<c:otherwise>
 											<a href="#"><i class="fa fa-comment"
-											aria-hidden="true"></i> Tips & Tricks</a>	
+											aria-hidden="true"></i> Mẹo & Thủ thuật</a>	
 										</c:otherwise>
 									</c:choose>									 
 										<a href="#"
 											data-pid-id="${post.getId() }" data-toggle="modal"
-											data-target="#reportModal" class="r-clor10">Report</a>
+											data-target="#reportModal" class="r-clor10">Tố cáo</a>
 									</div>
 								</div>
 							</div>
@@ -156,11 +159,9 @@
 											</c:otherwise>
 										</c:choose>
 									</div>									
-									<i class="fa fa-clock-o clock2" aria-hidden="true">
-										${dateAgo.formatDate(post.getCreatedAt()) }</i> <a href="#"><i
-										class="fa fa-commenting commenting2" aria-hidden="true">
-											${post.getAnswer() } answer</i></a> <i class="fa fa-user user2"
-										aria-hidden="true"> ${post.getView() } views</i>
+									<i class="fa fa-clock-o clock2" aria-hidden="true"> ${dateAgo.formatDate(post.getCreatedAt()) }</i>
+									<i class="fa fa-commenting user2" aria-hidden="true"> ${post.getAnswer() } bình luận</i>
+									<i class="fa fa-user user2" aria-hidden="true"> ${post.getView() } lượt xem</i>
 									<div class="l-side2023" style="float: right;">
 										<button style="border: none; background: none;"
 											onclick="likePost(${post.getId()})">

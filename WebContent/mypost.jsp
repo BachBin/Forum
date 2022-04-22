@@ -73,6 +73,9 @@
 								data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false">Quản lý <span class="caret"></span></a>
 								<ul class="dropdown-menu animated zoomIn">
+									<c:if test="${sessionScope.auth != null && sessionScope.auth.getType() == 2}">
+										<li><a href="managerforum">Quản lý diễn đàn</a></li>
+									</c:if>
 									<li><a href="managerpost">Quản lý bài đăng</a></li>
 									<li><a href="managercategory">Quản lý chủ đề </a></li>
 									<li><a href="manageruser">Quản lý tài khoản</a></li>
@@ -152,7 +155,7 @@
 														<a href="detail?post=${q.getSlug() }">${q.getTitle() }</a>
 														<a href="#">
 															<button type="button" class="q-type238">
-																<i class="fa fa-check" aria-hidden="true"> Accepted</i>
+																<i class="fa fa-check" aria-hidden="true"> Đã duyệt</i>
 															</button>
 														</a>
 													</c:when>
@@ -160,7 +163,7 @@
 														<a href="#">${q.getTitle() }</a>
 														<a href="#">
 															<button type="button" class="q-type238">
-																<i class="fa fa-times" aria-hidden="true"> Pending</i>
+																<i class="fa fa-times" aria-hidden="true"> Đang chờ duyệt</i>
 															</button>
 														</a>
 													</c:otherwise>
@@ -179,12 +182,12 @@
 											<c:choose>
 												<c:when test="${q.isType() == 'true' }">
 													<a href="detail?post=${q.getSlug() }"><i
-														class="fa fa-comment" aria-hidden="true"> Tips</i></a>
+														class="fa fa-comment" aria-hidden="true"> Mẹo & Thủ thuật</i></a>
 												</c:when>
 												<c:otherwise>
 													<a href="detail?post=${q.getSlug() }"><i
 														class="fa fa-question-circle-o" aria-hidden="true">
-															Question</i></a>
+															Câu hỏi</i></a>
 												</c:otherwise>
 											</c:choose>
 											<div style="float: right;">
@@ -200,18 +203,15 @@
 								</div>
 								<div class="col-md-2">
 									<div class="ques-type302">										
-										<a href="#">
-											<button type="button" class="q-type238">
-												<i class="fa fa-comment" aria-hidden="true">
-													${q.getAnswer() } answer</i>
-											</button>
-										</a> 
-										<a href="#">
-											<button type="button" class="q-type23 button-ques2973">
-												<i class="fa fa-user-circle-o" aria-hidden="true">
-													${q.getView() } view</i>
-											</button>
-										</a>
+										<button type="button" class="q-type238">
+											<i class="fa fa-comment" aria-hidden="true">
+												${q.getAnswer() } bình luận</i>
+										</button>
+										
+										<button type="button" class="q-type23">
+											<i class="fa fa-user-circle-o" aria-hidden="true">
+												${q.getView() } lượt xem</i>
+										</button>										
 									</div>
 								</div>
 							</div>

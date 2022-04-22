@@ -45,7 +45,8 @@ public class ManagerPost extends HttpServlet {
 
 				String txtSearch = req.getParameter("searchmn");
 				String slType = req.getParameter("type") != null ? req.getParameter("type") : "-1";
-
+				String slShow = req.getParameter("show") != null ? req.getParameter("show") : "2";				
+				
 				Categorybo catebo = new Categorybo();
 				Userbo userbo = new Userbo();
 				Postbo postbo = new Postbo();
@@ -59,10 +60,13 @@ public class ManagerPost extends HttpServlet {
 				req.setAttribute("listCate", catebo.getCategories());
 				req.setAttribute("listRecentPost", postbo.getRecentPost());
 
-				long count = postvmbo.getSLRecentPostAll(Integer.parseInt(slType), 2);
+				long count;
 				if (txtSearch != null && txtSearch != "") {
-					count = postvmbo.getSLRecentPostAllbySearch(txtSearch, Integer.parseInt(slType), 2);
+					count = postvmbo.getSLRecentPostAllbySearch(txtSearch, Integer.parseInt(slType), Integer.parseInt(slShow));
 				}
+				else {
+					count = postvmbo.getSLRecentPostAll(Integer.parseInt(slType), Integer.parseInt(slShow));
+				}					
 
 				long endPage = count / sobai;
 				if (count % sobai != 0) {
@@ -71,9 +75,9 @@ public class ManagerPost extends HttpServlet {
 				req.setAttribute("endP", endPage);
 				req.setAttribute("tag", index);
 				if (txtSearch != null && txtSearch != "") {
-					req.setAttribute("listPost", postvmbo.getRecentPostAllPagebySearch(index, sobai, txtSearch, Integer.parseInt(slType), 2));
+					req.setAttribute("listPost", postvmbo.getRecentPostAllPagebySearch(index, sobai, txtSearch, Integer.parseInt(slType), Integer.parseInt(slShow)));
 				} else {
-					req.setAttribute("listPost", postvmbo.getRecentPostAllPage(index, sobai, Integer.parseInt(slType), 2));
+					req.setAttribute("listPost", postvmbo.getRecentPostAllPage(index, sobai, Integer.parseInt(slType), Integer.parseInt(slShow)));
 				}
 				req.getRequestDispatcher("managerpost.jsp").forward(req, resp);
 			} else {

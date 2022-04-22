@@ -988,9 +988,9 @@ public class PostVMdao {
 		con = new ConnecDataBase().getConnection();
 		if(type == -1) {
 			if(show == 0)
-				sql = "select count(*) from Post where p.show = 0 and (title like ? or summary like ? or content like ?)";
+				sql = "select count(*) from Post where show = 0 and (title like ? or summary like ? or content like ?)";
 			else if(show == 1) 
-				sql = "select count(*) from Post where p.show = 1 and (title like ? or summary like ? or content like ?)";
+				sql = "select count(*) from Post where show = 1 and (title like ? or summary like ? or content like ?)";
 			else 
 				sql = "select count(*) from Post where (title like ? or summary like ? or content like ?)";		
 			
@@ -1002,9 +1002,9 @@ public class PostVMdao {
 		}
 		else {
 			if(show == 0)
-				sql = "select count(*) from Post where p.show = 0 and (title like ? or summary like ? or content like ?) and type = ?";
+				sql = "select count(*) from Post where show = 0 and (title like ? or summary like ? or content like ?) and type = ?";
 			else if(show == 1) 
-				sql = "select count(*) from Post where p.show = 1 and (title like ? or summary like ? or content like ?) and type = ?";
+				sql = "select count(*) from Post where show = 1 and (title like ? or summary like ? or content like ?) and type = ?";
 			else 
 				sql = "select count(*) from Post where (title like ? or summary like ? or content like ?) and type = ?";			
 			
@@ -1176,11 +1176,25 @@ public class PostVMdao {
 			rs = ps.executeQuery();
 		}
 		else {
-			sql = "select p.*, u.image, u.type, u.uniqueId, ((select count(*) from Post_Comment where postId = p.id)) as answer\r\n"
-					+ "from Post as p JOIN Users as u on p.authorId = u.id\r\n"
-					+ "where p.type = ?\r\n"
-					+ "order by p.createdAt desc\r\n"
-					+ "OFFSET ? rows fetch next ? rows ONLY";
+			if(show == 0)
+				sql = "select p.*, u.image, u.type, u.uniqueId, ((select count(*) from Post_Comment where postId = p.id)) as answer\r\n"
+						+ "from Post as p JOIN Users as u on p.authorId = u.id\r\n"
+						+ "where p.type = ? and p.show = 0\r\n"
+						+ "order by p.createdAt desc\r\n"
+						+ "OFFSET ? rows fetch next ? rows ONLY";
+			else if(show == 1) 
+				sql = "select p.*, u.image, u.type, u.uniqueId, ((select count(*) from Post_Comment where postId = p.id)) as answer\r\n"
+						+ "from Post as p JOIN Users as u on p.authorId = u.id\r\n"
+						+ "where p.type = ? and p.show = 1\r\n"
+						+ "order by p.createdAt desc\r\n"
+						+ "OFFSET ? rows fetch next ? rows ONLY";
+			else 
+				sql = "select p.*, u.image, u.type, u.uniqueId, ((select count(*) from Post_Comment where postId = p.id)) as answer\r\n"
+						+ "from Post as p JOIN Users as u on p.authorId = u.id\r\n"
+						+ "where p.type = ?\r\n"
+						+ "order by p.createdAt desc\r\n"
+						+ "OFFSET ? rows fetch next ? rows ONLY";			
+			
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, type);
 			ps.setLong(2, (index - 1) * sobai);

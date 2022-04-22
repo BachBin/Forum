@@ -75,6 +75,9 @@
 								data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false">Quản lý <span class="caret"></span></a>
 								<ul class="dropdown-menu animated zoomIn">
+									<c:if test="${sessionScope.auth != null && sessionScope.auth.getType() == 2}">
+										<li><a href="managerforum">Quản lý diễn đàn</a></li>
+									</c:if>
 									<li><a href="managerpost">Quản lý bài đăng</a></li>
 									<li><a href="managercategory">Quản lý chủ đề </a></li>
 									<li><a href="manageruser">Quản lý tài khoản</a></li>
@@ -191,9 +194,9 @@
 																${dateAgo.formatDate(p.getCreatedAt()) }</i></a> <a
 															href="detail?post=${p.getSlug() }"><i
 															class="fa fa-question-circle-o" aria-hidden="true">
-																Question</i></a> <a href="#" data-pid-id="${p.getId() }"
+																Câu hỏi</i></a> <a href="#" data-pid-id="${p.getId() }"
 															data-toggle="modal" data-target="#reportModal"><i
-															class="fa fa-bug" aria-hidden="true"> Report</i></a>
+															class="fa fa-bug" aria-hidden="true"> Tố cáo</i></a>
 													</div>
 												</div>
 											</div>
@@ -202,12 +205,12 @@
 													<a href="#">
 														<button type="button" class="q-type238">
 															<i class="fa fa-comment" aria-hidden="true">
-																${p.getAnswer() } answer</i>
+																${p.getAnswer() } bình luận</i>
 														</button>
 													</a> <a href="#">
-														<button type="button" class="q-type23 button-ques2973">
+														<button type="button" class="q-type23">
 															<i class="fa fa-user-circle-o" aria-hidden="true">
-																${p.getView() } view</i>
+																${p.getView() } lượt xem</i>
 														</button>
 													</a>
 												</div>
@@ -326,10 +329,10 @@
 															class="fa fa-clock-o" aria-hidden="true">
 																${dateAgo.formatDate(q.getCreatedAt()) }</i></a> <a
 															href="detail?post=${q.getSlug() }"><i
-															class="fa fa-comment" aria-hidden="true"> Tips</i></a> <a
+															class="fa fa-comment" aria-hidden="true"> Mẹo & Thủ thuật</i></a> <a
 															href="#" data-pid-id="${q.getId() }"
 															data-toggle="modal" data-target="#reportModal"><i
-															class="fa fa-bug" aria-hidden="true"> Report</i></a>
+															class="fa fa-bug" aria-hidden="true"> Tố cáo</i></a>
 													</div>
 												</div>
 											</div>
@@ -338,12 +341,12 @@
 													<a href="#">
 														<button type="button" class="q-type238">
 															<i class="fa fa-comment" aria-hidden="true">
-																${q.getAnswer() } answer</i>
+																${q.getAnswer() } bình luận</i>
 														</button>
 													</a> <a href="#">
-														<button type="button" class="q-type23 button-ques2973">
+														<button type="button" class="q-type23">
 															<i class="fa fa-user-circle-o" aria-hidden="true">
-																${q.getView() } view</i>
+																${q.getView() } lượt xem</i>
 														</button>
 													</a>
 												</div>
@@ -463,17 +466,17 @@
 														<c:choose>
 															<c:when test="${d.isType() == 'true' }">
 																<a href="detail?post=${d.getSlug() }"><i
-																	class="fa fa-comment" aria-hidden="true"> Tips</i></a>
+																	class="fa fa-comment" aria-hidden="true"> Mẹo & thủ thuật</i></a>
 															</c:when>
 															<c:otherwise>
 																<a href="detail?post=${d.getSlug() }"><i
 																	class="fa fa-question-circle-o" aria-hidden="true">
-																		Question</i></a>
+																		Câu hỏi</i></a>
 															</c:otherwise>
 														</c:choose>
 														<a href="#" data-pid-id="${d.getId() }"
 															data-toggle="modal" data-target="#reportModal"><i
-															class="fa fa-bug" aria-hidden="true"> Report</i></a>
+															class="fa fa-bug" aria-hidden="true"> Tố cáo</i></a>
 													</div>
 												</div>
 											</div>
@@ -482,12 +485,12 @@
 													<a href="#">
 														<button type="button" class="q-type238">
 															<i class="fa fa-comment" aria-hidden="true">
-																${d.getAnswer() } answer</i>
+																${d.getAnswer() } bình luận</i>
 														</button>
 													</a> <a href="#">
-														<button type="button" class="q-type23 button-ques2973">
+														<button type="button" class="q-type23">
 															<i class="fa fa-user-circle-o" aria-hidden="true">
-																${d.getView() } view</i>
+																${d.getView() } lượt xem</i>
 														</button>
 													</a>
 												</div>
@@ -608,17 +611,17 @@
 														<c:choose>
 															<c:when test="${al.isType() == 'true' }">
 																<a href="detail?post=${q.getSlug() }"><i
-																	class="fa fa-comment" aria-hidden="true"> Tips</i></a>
+																	class="fa fa-comment" aria-hidden="true"> Mẹo & Thủ thuật</i></a>
 															</c:when>
 															<c:otherwise>
 																<a href="detail?post=${al.getSlug() }"><i
 																	class="fa fa-question-circle-o" aria-hidden="true">
-																		Question</i></a>
+																		Câu hỏi</i></a>
 															</c:otherwise>
 														</c:choose>
 														<a href="#" data-pid-id="${al.getId() }"
 															data-toggle="modal" data-target="#reportModal"s><i
-															class="fa fa-bug" aria-hidden="true"> Report</i></a>
+															class="fa fa-bug" aria-hidden="true"> Tố cáo</i></a>
 													</div>
 												</div>
 											</div>
@@ -627,12 +630,12 @@
 													<a href="#">
 														<button type="button" class="q-type238">
 															<i class="fa fa-comment" aria-hidden="true">
-																${al.getAnswer() } answer</i>
+																${al.getAnswer() } bình luận</i>
 														</button>
 													</a> <a href="#">
-														<button type="button" class="q-type23 button-ques2973">
+														<button type="button" class="q-type23">
 															<i class="fa fa-user-circle-o" aria-hidden="true">
-																${al.getView() } view</i>
+																${al.getView() } lượt xem</i>
 														</button>
 													</a>
 												</div>

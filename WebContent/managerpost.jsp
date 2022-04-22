@@ -35,10 +35,10 @@
 		<c:remove var="alert" />
 	</c:if>
 	<jsp:useBean id="dateAgo" class="Controller.DateAgo" />
-	<jsp:useBean id="report" class="Bo.Reportbo" />	
+	<jsp:useBean id="report" class="Bo.Reportbo" />
 	<!--======== Navbar =======-->
 	<c:import url="includes/headertop.jsp"></c:import>
-	
+
 	<div class="top-menu-bottom932">
 		<nav class="navbar navbar-default">
 			<div class="container">
@@ -72,6 +72,9 @@
 								aria-haspopup="true" aria-expanded="false">Quản lý <span
 									class="caret"></span></a>
 								<ul class="dropdown-menu animated zoomIn">
+									<c:if test="${sessionScope.auth != null && sessionScope.auth.getType() == 2}">
+										<li><a href="managerforum">Quản lý diễn đàn</a></li>
+									</c:if>
 									<li><a href="managerpost">Quản lý bài đăng</a></li>
 									<li><a href="managercategory">Quản lý chủ đề </a></li>
 									<li><a href="manageruser">Quản lý tài khoản</a></li>
@@ -82,9 +85,7 @@
 							<li><a href="signup.jsp">Đăng ký</a></li>
 						</c:if>
 						<c:if test="${sessionScope.auth != null }">
-							<li>
-								<a href="messaging">Trò chuyện</a>
-							</li>
+							<li><a href="messaging">Trò chuyện</a></li>
 						</c:if>
 					</ul>
 				</div>
@@ -103,31 +104,52 @@
 			</ol>
 		</div>
 	</section>
-	<section class="main-content920">		
+	<section class="main-content920">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-9" style="margin-top: 20px;">
 					<form action="managerpost" method="get">
-						<input class="form-control" type="text" name="searchmn" value="${not empty param.searchmn?param.searchmn:''}" placeholder="Tìm kiếm: Nhập từ gì đó trong bài đăng" aria-label="Search">
-						<select class="form-control" name="type">
-							<option value="-1" ${param.type != null && param.type == -1 ? 'selected' : ""}>Tất cả</option>
-							<option value="0" ${param.type != null && param.type == 0 ? 'selected' : ""}>Câu hỏi</option>
-							<option value="1" ${param.type != null && param.type == 1 ? 'selected' : ""}>Mẹo và thủ thuật</option>										
-						</select>										
-						<button type="submit" class="btn btn-primary">Tìm kiếm</button>	
+						<input class="form-control" type="text" name="searchmn"
+							value="${not empty param.searchmn?param.searchmn:''}"
+							placeholder="Tìm kiếm: Nhập từ gì đó trong bài đăng"
+							aria-label="Search"> <select class="form-control"
+							name="type">
+							<option value="-1"
+								${param.type != null && param.type == -1 ? 'selected' : ""}>Tất
+								cả</option>
+							<option value="0"
+								${param.type != null && param.type == 0 ? 'selected' : ""}>Câu
+								hỏi</option>
+							<option value="1"
+								${param.type != null && param.type == 1 ? 'selected' : ""}>Mẹo
+								và thủ thuật</option>
+						</select> <select class="form-control" name="show">
+							<option value="2"
+								${param.show != null && param.show == 2 ? 'selected' : ""}>Tất
+								cả</option>
+							<option value="1"
+								${param.show != null && param.show == 1 ? 'selected' : ""}>Đã
+								duyệt</option>
+							<option value="0"
+								${param.show != null && param.show == 0 ? 'selected' : ""}>Chưa
+								duyệt</option>
+						</select>
+
+
+						<button type="submit" class="btn btn-primary">Tìm kiếm</button>
 					</form>
 				</div>
 				<div class="col-md-9 user-profile328903">
 					<c:if test="${listPost.size() == 0 }">
-						<p class="text-center"> Không có kết quả phù hợp. </p>
+						<p class="text-center">Không có kết quả phù hợp.</p>
 					</c:if>
 					<c:forEach items="${listPost }" var="q">
 						<div class="question-type2033">
 							<div class="row">
 								<div class="col-md-1">
 									<div class="left-user12923 left-user12923-repeat">
-										<a href="inbox?user=${q.getUniqueId() }"><img src="images/${q.getImage() }" alt="image">
-										</a>
+										<a href="inbox?user=${q.getUniqueId() }"><img
+											src="images/${q.getImage() }" alt="image"> </a>
 										<c:choose>
 											<c:when test="${q.isSolved() == true}">
 												<a href="#"><i class="fa fa-check" aria-hidden="true"></i></a>
@@ -156,12 +178,12 @@
 											<c:choose>
 												<c:when test="${q.isType() == 'true' }">
 													<a href="detail?post=${q.getSlug() }"><i
-														class="fa fa-comment" aria-hidden="true"> Tips</i></a>
+														class="fa fa-comment" aria-hidden="true"> Mẹo & Thủ thuật</i></a>
 												</c:when>
 												<c:otherwise>
 													<a href="detail?post=${q.getSlug() }"><i
 														class="fa fa-question-circle-o" aria-hidden="true">
-															Question</i></a>
+															Câu hỏi</i></a>
 												</c:otherwise>
 											</c:choose>
 											<div style="float: right;">
@@ -186,17 +208,18 @@
 										<a href="#">
 											<button type="button" class="q-type238">
 												<i class="fa fa-comment" aria-hidden="true">
-													${q.getAnswer() } answer</i>
+													${q.getAnswer() } bình luận</i>
 											</button>
 										</a> <a href="#">
 											<button type="button" class="q-type23 button-ques2973">
 												<i class="fa fa-user-circle-o" aria-hidden="true">
-													${q.getView() } view</i>
+													${q.getView() } lượt xem</i>
 											</button>
-										</a> <a href="#" data-toggle="modal" data-target="#ReportModal" data-id="${q.getSlug() }">
+										</a> <a href="#" data-toggle="modal" data-target="#ReportModal"
+											data-id="${q.getSlug() }">
 											<button type="button" class="q-type23 button-ques2973">
 												<i class="fa fa-user-circle-o" aria-hidden="true">
-													${report.getSLReport(q.getId()) } report</i>
+													${report.getSLReport(q.getId()) } tố cáo</i>
 											</button>
 										</a>
 									</div>
@@ -208,16 +231,30 @@
 					<nav aria-label="Page navigation">
 						<ul class="pagination">
 							<c:if test="${tag > 1 }">
-								<li><a href="managerpost?page=${tag - 1}&searchmn=${not empty param.searchmn?param.searchmn:''}"
+								<li><a
+									href="managerpost?page=${tag - 1}
+									&searchmn=${not empty param.searchmn?param.searchmn:''}
+									&type=${not empty param.type?param.type:''}
+									&show=${not empty param.show?param.show:''}
+									"
 									aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 							</c:if>
 							<c:forEach begin="1" end="${endP }" var="i">
-								<li class="${tag == i?"active":""}"><a
-									href="managerpost?page=${i}&searchmn=${not empty param.searchmn?param.searchmn:''}">${i}</a></li>
+								<li class="${tag == i?'active':''}"><a
+									href="managerpost?page=${i}
+									&searchmn=${not empty param.searchmn?param.searchmn:''}
+									&type=${not empty param.type?param.type:''}
+									&show=${not empty param.show?param.show:''}
+									">${i}</a></li>
 							</c:forEach>
 							<c:if test="${tag < endP }">
-								<li><a href="managerpost?page=${tag+1}&searchmn=${not empty param.searchmn?param.searchmn:''}" aria-label="Next"><span
-										aria-hidden="true">&raquo;</span></a></li>
+								<li><a
+									href="managerpost?page=${tag+1}
+									&searchmn=${not empty param.searchmn?param.searchmn:''}
+									&type=${not empty param.type?param.type:''}
+									&show=${not empty param.show?param.show:''}
+									"
+									aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 							</c:if>
 						</ul>
 					</nav>
@@ -227,12 +264,10 @@
 				<aside class="col-md-3 sidebar97239">
 					<div class="status-part3821">
 						<h4>Thống kê</h4>
-						<i class="fa fa-question-circle" aria-hidden="true"> 
-						Câu hỏi: ${countQuestion }</i> 
-						<i class="fa fa-comment" aria-hidden="true">
-						Chia sẻ: ${countAnswer }</i>
-						<i class="fa fa-user" aria-hidden="true">
-						Tài khoản: ${countUser }</i>
+						<i class="fa fa-question-circle" aria-hidden="true"> Câu hỏi:
+							${countQuestion }</i> <i class="fa fa-comment" aria-hidden="true">
+							Chia sẻ: ${countAnswer }</i> <i class="fa fa-user" aria-hidden="true">
+							Tài khoản: ${countUser }</i>
 					</div>
 					<div class="categori-part329">
 						<h4>Chủ đề</h4>
@@ -323,16 +358,17 @@
 								<div class="left-user3898">
 									<c:choose>
 										<c:when test="${not empty u.getImage() }">
-											<a href="inbox?user=${u.getUniqueId() }"><img src="images/${u.getImage() }"
-												alt="Image"></a>
+											<a href="inbox?user=${u.getUniqueId() }"><img
+												src="images/${u.getImage() }" alt="Image"></a>
 										</c:when>
 										<c:otherwise>
-											<a href="inbox?user=${u.getUniqueId() }"><img src="images/User-Linear-80px.png"
-												alt="Image"></a>
+											<a href="inbox?user=${u.getUniqueId() }"><img
+												src="images/User-Linear-80px.png" alt="Image"></a>
 										</c:otherwise>
 									</c:choose>
 									<div class="imag-overlay39">
-										<a href="inbox?user=${u.getUniqueId() }"><i class="fa fa-plus" aria-hidden="true"></i></a>
+										<a href="inbox?user=${u.getUniqueId() }"><i
+											class="fa fa-plus" aria-hidden="true"></i></a>
 									</div>
 								</div>
 								<span class="points-details938"> <c:choose>
@@ -399,8 +435,8 @@
 		</div>
 	</section>
 	<!-- Modal Seen Report  -->
-	<div class="modal fade" id="ReportModal" tabindex="-1"
-		role="dialog" aria-labelledby="ReportModal" aria-hidden="true">
+	<div class="modal fade" id="ReportModal" tabindex="-1" role="dialog"
+		aria-labelledby="ReportModal" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form id="reportForm" name="reportForm" action="">
@@ -409,11 +445,9 @@
 							aria-hidden="true">&times;</button>
 						<h4 class="modal-title" id="myModalLabel">Nội Dung Tố Cáo</h4>
 					</div>
-					<div class="modal-body" id="contentRP">
-											
-					</div>
+					<div class="modal-body" id="contentRP"></div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>						
+						<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
 					</div>
 				</form>
 			</div>
@@ -429,7 +463,8 @@
 						<div class="input-group col-md-12">
 							<i class="fa fa-pencil-square-o" aria-hidden="true"></i> <input
 								type="text" class="search-query form-control user-control30"
-								name="search" value="${not empty param.search?param.search:""}"
+								name="search" value="${not empty param.search?param.search:"
+								"}"
 							placeholder="Nhập thông tin cần tìm kiếm ..." /> <span
 								class="input-group-btn">
 								<button class="btn btn-danger" type="submit">
@@ -450,9 +485,10 @@
 	<div id="backtop">
 		<i class="fa fa-chevron-up" aria-hidden="true"></i>
 	</div>
-	
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/editor.js"></script>
@@ -471,28 +507,33 @@
 				}, 500);
 			});
 		});
-	</script>	
-	
+	</script>
+
 	<script type="text/javascript">
-		$('#ReportModal').on('show.bs.modal', function(e) {
-			var slug = $(e.relatedTarget).data('id');			
-			$.ajax({
-				url : "/Forum/getReport",
-				type : "post",
-				data : {slug:slug},
-				success : function(data) 
-				{		
-					if(data!="") {
-						document.getElementById('contentRP').innerHTML = data;
-					}
-					else {
-						document.getElementById('contentRP').innerHTML = "<p>Bài đăng chưa có tố cáo.</p>";
-					}
-				}				
-			})
-		});
-		
-	</script>	
+		$('#ReportModal')
+				.on(
+						'show.bs.modal',
+						function(e) {
+							var slug = $(e.relatedTarget).data('id');
+							$
+									.ajax({
+										url : "/Forum/getReport",
+										type : "post",
+										data : {
+											slug : slug
+										},
+										success : function(data) {
+											if (data != "") {
+												document
+														.getElementById('contentRP').innerHTML = data;
+											} else {
+												document
+														.getElementById('contentRP').innerHTML = "<p>Bài đăng chưa có tố cáo.</p>";
+											}
+										}
+									})
+						});
+	</script>
 </body>
 
 </html>

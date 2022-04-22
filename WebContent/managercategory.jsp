@@ -96,6 +96,9 @@
 								aria-haspopup="true" aria-expanded="false">Quản lý <span
 									class="caret"></span></a>
 								<ul class="dropdown-menu animated zoomIn">
+									<c:if test="${sessionScope.auth != null && sessionScope.auth.getType() == 2}">
+										<li><a href="managerforum">Quản lý diễn đàn</a></li>
+									</c:if>
 									<li><a href="managerpost">Quản lý bài đăng</a></li>
 									<li><a href="managercategory">Quản lý chủ đề </a></li>
 									<li><a href="manageruser">Quản lý tài khoản</a></li>
@@ -141,6 +144,7 @@
 							<div class="col-md-9">
 								<form action="managercategory" method="get">
 									<input class="form-control" type="text" name="searchct" value="${not empty param.searchct?param.searchct:''}" placeholder="Tìm kiếm: Nhập từ gì đó trong chủ đề bài đăng" aria-label="Search">
+									<button type="submit" class="btn btn-primary">Tìm kiếm</button>
 								</form>
 							</div>							
 						</div>
