@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Bean.Userbean;
+import Bo.Configbo;
 
 /**
  * Servlet implementation class Messaging
@@ -26,6 +27,13 @@ public class Messaging extends HttpServlet {
      	 	
      	 	HttpSession session = req.getSession();
      	 	Userbean auth = (Userbean)session.getAttribute("auth");
+     	 	
+     	 	Configbo configbo = new Configbo();			
+			if(configbo.getConfig().isAllowChat() == false && auth.getType() != 2) {
+				req.setAttribute("chatOff", 0);
+				req.getRequestDispatcher("forumoff.jsp").forward(req, resp);
+				return;
+			}
      	 	
      	 	if(auth != null) {	
      	 		req.getRequestDispatcher("Messaging.jsp").forward(req, resp);

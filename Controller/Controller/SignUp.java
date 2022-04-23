@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 
 import Bean.Userbean;
+import Bo.Configbo;
 import Bo.Userbo;
 import Captcha.VerifyRecaptcha;
 
@@ -27,15 +28,24 @@ public class SignUp extends HttpServlet {
 			req.setCharacterEncoding("UTF-8");
      	 	resp.setCharacterEncoding("UTF-8");
      	 	
+     	 	HttpSession session = req.getSession();
+     	 	Userbean auth = (Userbean)session.getAttribute("auth");
+     	 	
+     	 	Configbo configbo = new Configbo();			
+			if(configbo.getConfig().isAllowRegistry() == false && (auth == null || auth.getType() != 2)) {
+				req.setAttribute("registryOff", 0);
+				req.getRequestDispatcher("forumoff.jsp").forward(req, resp);
+				return;
+			}
+     	 	
      	 	String email = req.getParameter("email");
      	 	String maxacnhan = req.getParameter("maxacnhan");
 			String password = req.getParameter("password");
 			String repassword = req.getParameter("repassword");
 			String gRecaptchaResponse = req.getParameter("g-recaptcha-response");
 			
-			boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);
+			boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);			
 			
-			HttpSession session = req.getSession();
 			if(maxacnhan.equals("") || maxacnhan == null) {
 				session.setAttribute("username1", email);
 				session.setAttribute("alert", "Nhập mã xác nhận gửi về email!!!");

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Bo.Categorybo;
+import Bo.Configbo;
 import Bo.PostVMbo;
 import Bo.Postbo;
 import Bo.Userbo;
@@ -24,7 +25,9 @@ public class HomeController extends HttpServlet {
 		try {
 			resp.setContentType("text/html;charset=UTF-8");
 			req.setCharacterEncoding("UTF-8");
-			resp.setCharacterEncoding("UTF-8");
+			resp.setCharacterEncoding("UTF-8");		
+			
+			
 			long sobai = 5;
 
 			String indexPage1 = req.getParameter("page1");

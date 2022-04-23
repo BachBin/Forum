@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Bean.Userbean;
+import Bo.Configbo;
 import Bo.Userbo;
 
 /**
@@ -26,7 +27,14 @@ public class Chat extends HttpServlet {
      	 	resp.setCharacterEncoding("UTF-8");
      	 	
      	 	HttpSession session = req.getSession();
-     	 	Userbean auth = (Userbean)session.getAttribute("auth");	    	
+     	 	Userbean auth = (Userbean)session.getAttribute("auth");	
+     	 	
+     	 	Configbo configbo = new Configbo();			
+			if(configbo.getConfig().isAllowChat() == false && auth.getType() != 2) {
+				req.setAttribute("chatOff", 0);
+				req.getRequestDispatcher("forumoff.jsp").forward(req, resp);
+				return;
+			}
      	 	
      	 	String authorId = req.getParameter("user");     	
      	 	
@@ -41,8 +49,7 @@ public class Chat extends HttpServlet {
 					
 					req.getRequestDispatcher("Chat.jsp").forward(req, resp);
 				}
-				else {
-					session.setAttribute("alert", "Không thể gửi tin nhắn cho chính bạn!");
+				else {					
 					resp.sendRedirect("home");
 				}
 			}

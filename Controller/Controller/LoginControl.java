@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 
 import Bean.Userbean;
+import Bo.Configbo;
 import Bo.Userbo;
 import Captcha.VerifyRecaptcha;
 
@@ -46,6 +47,19 @@ public class LoginControl extends HttpServlet {
 			
 			Userbo userbo = new Userbo();
 			Userbean user = userbo.getUser(email, passwordHash);
+			
+			Configbo configbo = new Configbo();			
+			if(configbo.getConfig().isForum() == false && user.getType() != 2 ) {
+				req.setAttribute("forumOff", 0);
+				req.getRequestDispatcher("forumoff.jsp").forward(req, resp);
+				return;
+			}
+			if(configbo.getConfig().isAllowLogin() == false && user.getType() != 2 ) {
+				req.setAttribute("loginOff", 0);
+				req.getRequestDispatcher("forumoff.jsp").forward(req, resp);
+				return;
+			}
+			
 			HttpSession session = req.getSession();
 			if(user == null) {				
 				session.setAttribute("alert", "Thông tin đăng nhập không đúng!!!");

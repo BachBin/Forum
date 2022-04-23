@@ -7,8 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import Bean.Userbean;
 import Bo.Categorybo;
+import Bo.Configbo;
 import Bo.PostVMbo;
 import Bo.Postbo;
 import Bo.Userbo;
@@ -25,7 +28,7 @@ public class AskQuestion extends HttpServlet {
 		try {
 			resp.setContentType("text/html;charset=UTF-8");
 			req.setCharacterEncoding("UTF-8");
-     	 	resp.setCharacterEncoding("UTF-8");
+     	 	resp.setCharacterEncoding("UTF-8");    	 	
      	 	
      	 	String post = req.getParameter("post");
      	 	Userbo userbo = new Userbo();
@@ -33,6 +36,17 @@ public class AskQuestion extends HttpServlet {
     		
     		Postbo postbo = new Postbo();
     		PostVMbo postvmbo = new PostVMbo();	 
+    		
+     	 	HttpSession session = req.getSession();
+     	 	Userbean auth = (Userbean)session.getAttribute("auth");
+    		
+    		
+    		Configbo configbo = new Configbo();			
+			if(configbo.getConfig().isAllowPost() == false && auth.getType() != 2) {
+				req.setAttribute("postOff", 0);
+				req.getRequestDispatcher("forumoff.jsp").forward(req, resp);
+				return;
+			}		
     		
     		req.setAttribute("countQuestion", postbo.countQuestion());
     		req.setAttribute("countAnswer", postbo.countAnswer());   
