@@ -50,7 +50,7 @@ public class ForgotPassword extends HttpServlet {
          	 			int randomCode = rad.nextInt(999999);        	 			
          	 			
          	 			final String fromEmail = "websiteforumhusc@gmail.com";
-         	 			final String password = "VanManh672???";
+         	 			final String password = "VanManh672?";
          	 			
          	 			String toEmail = email;
          	 			final String subject = "Mã khôi phục mật khẩu Forum Website";
