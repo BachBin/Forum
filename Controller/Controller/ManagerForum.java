@@ -33,6 +33,7 @@ public class ManagerForum extends HttpServlet {
 			
 			if(auth == null  || auth.getType() != 2) {
 				resp.sendRedirect("logIn.jsp?from=home"); 
+				return;
 			}
 			Categorybo catebo = new Categorybo();
 			Userbo userbo = new Userbo();
