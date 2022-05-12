@@ -21,8 +21,7 @@ CKEDITOR.editorConfig = function( config )
         ['NumberedList', 'BulletedList'],
         ['Source'],
         ['Maximize']
-    ];
-    config.toolbar = 'TRiGCustom';
+    ];   
     config.forcePasteAsPlainText = true;
     config.forceSimpleAmpersand = true;
     config.resize_enabled = false;
